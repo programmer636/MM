@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Muhamad - Portfolio</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            list-style: none;
+        }
+
+        body {
+            background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 167, 38, 0.95);
+            backdrop-filter: blur(10px);
+            font-size: 1.1rem;
+            padding: 20px 9%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background: rgba(255, 167, 38, 0.9);
+            padding: 15px 9%;
+        }
+
+        header .logo {
+            font-weight: 800;
+            font-size: 2rem;
+            color: #fff;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        header .logo:hover {
+            transform: scale(1.05);
+        }
+
+        header .navbar ul {
+            display: flex;
+            gap: 30px;
+        }
+
+        header .navbar a {
+            color: #fff;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        header .navbar a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background-color: #8B5CF6;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        header .navbar a:hover::after,
+        header .navbar a.active::after {
+            width: 100%;
+        }
+
+        header .navbar a:hover,
+        header .navbar a.active {
+            color: #8B5CF6;
+        }
+
+        /* Main Section */
+        section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 9% 50px;
+        }
+
+        .home-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .home-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: slideInLeft 1s ease forwards;
+        }
+
+        .home-text h3 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: slideInLeft 1s ease 0.2s forwards;
+        }
+
+        .home-text h1 span,
+        .home-text h3 span {
+            color: #ffa726;
+            background: linear-gradient(45deg, #ffa726, #ff9800);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .home-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: slideInLeft 1s ease 0.4s forwards;
+        }
+
+        .social-icons {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-top: 30px;
+            opacity: 0;
+            animation: slideInLeft 1s ease 0.6s forwards;
+        }
+
+        .soci {
+            display: flex;
+            gap: 15px;
+        }
+
+        .soci i {
+            font-size: 2rem;
+            color: #ffa726;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 12px;
+            border: 2px solid #ffa726;
+            border-radius: 50%;
+            background: rgba(255, 167, 38, 0.1);
+        }
+
+        .soci i:hover {
+            color: #fff;
+            background: #ffa726;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 167, 38, 0.4);
+        }
+
+        .hire-btn {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, #ffa726, #ff9800);
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hire-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 167, 38, 0.4);
+            background: linear-gradient(45deg, #ff9800, #ffa726);
+        }
+
+        .image {
+            display: flex;
+            justify-content: center;
+            opacity: 0;
+            animation: slideInRight 1s ease 0.8s forwards;
+        }
+
+        .image img {
+            border-radius: 50%;
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border: 5px solid #ffa726;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .image img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 25px 50px rgba(255, 167, 38, 0.3);
+        }
+
+        /* Animations */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 5%;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            header .navbar ul {
+                gap: 20px;
+            }
+
+            section {
+                padding: 150px 5% 50px;
+            }
+
+            .home-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                text-align: center;
+            }
+
+            .home-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .home-text h3 {
+                font-size: 1.8rem;
+            }
+
+            .image img {
+                width: 250px;
+                height: 250px;
+            }
+
+            .social-icons {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .home-text h1 {
+                font-size: 2rem;
+            }
+
+            .home-text h3 {
+                font-size: 1.5rem;
+            }
+
+            .soci i {
+                font-size: 1.5rem;
+                padding: 10px;
+            }
+
+            .hire-btn {
+                padding: 10px 25px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header id="header">
+        <a class="logo" href="#" onclick="scrollToTop()">Portfolio</a>
+        <nav class="navbar">
+            <ul>
+                <li><a class="active" href="#" onclick="setActive(this)">Home</a></li>
+                <li><a href="#" onclick="setActive(this)">About</a></li>
+                <li><a href="#" onclick="setActive(this)">Skills</a></li>
+                <li><a href="#" onclick="setActive(this)">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Home Section -->
+    <section id="home">
+        <div class="home-content">
+            <div class="home-text">
+                <h1>I'm <span id="name">Mak</span></h1>
+                <h3>I'm a <span id="profession">Programmer</span></h3>
+                <p>Passionate web developer with expertise in creating dynamic and responsive websites. I love turning ideas into beautiful, functional digital experiences that make a difference.</p>
+                
+                <div class="social-icons">
+                    <div class="soci">
+                        <i class='bx bxl-github' onclick="openLink('https://github.com')"></i>
+                        <i class='bx bxl-youtube' onclick="openLink('https://youtube.com')"></i>
+                        <i class='bx bxl-telegram' onclick="openLink('https://telegram.org')"></i>
+                        <i class='bx bxl-linkedin' onclick="openLink('https://linkedin.com')"></i>
+                    </div>
+                    <button class="hire-btn" onclick="hireMe()">Hire Me</button>
+                </div>
+            </div>
+            
+            <div class="image">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face" alt="Muhamad's Profile Picture" id="profileImg">
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Active navigation link
+        function setActive(element) {
+            // Remove active class from all links
+            const navLinks = document.querySelectorAll('.navbar a');
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            // Add active class to clicked link
+            element.classList.add('active');
+        }
+
+        // Scroll to top function
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Open social media links
+        function openLink(url) {
+            window.open(url, '_blank');
+        }
+
+        // Hire me button action
+        function hireMe() {
+            // Create contact modal effect
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 10000;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            `;
+            
+            const modalContent = document.createElement('div');
+            modalContent.style.cssText = `
+                background: linear-gradient(135deg, #8B5CF6, #6D28D9);
+                padding: 40px;
+                border-radius: 20px;
+                text-align: center;
+                color: white;
+                max-width: 400px;
+                transform: scale(0.8);
+                transition: transform 0.3s ease;
+            `;
+            
+            modalContent.innerHTML = `
+                <h2 style="margin-bottom: 20px; color: #ffa726;">Let's Work Together!</h2>
+                <p style="margin-bottom: 20px; line-height: 1.6;">Ready to bring your ideas to life? Contact me and let's create something amazing together!</p>
+                <div style="display: flex; gap: 15px; justify-content: center; margin-bottom: 20px;">
+                    <button onclick="window.open('mailto:muhamad@example.com', '_blank')" style="padding: 10px 20px; background: #ffa726; color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: 600;">Email Me</button>
+                    <button onclick="window.open('tel:+1234567890', '_blank')" style="padding: 10px 20px; background: transparent; color: #ffa726; border: 2px solid #ffa726; border-radius: 25px; cursor: pointer; font-weight: 600;">Call Me</button>
+                </div>
+                <button onclick="closeModal()" style="padding: 8px 16px; background: transparent; color: #ccc; border: 1px solid #ccc; border-radius: 15px; cursor: pointer;">Close</button>
+            `;
+            
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+            
+            // Animate modal appearance
+            setTimeout(() => {
+                modal.style.opacity = '1';
+                modalContent.style.transform = 'scale(1)';
+            }, 10);
+            
+            // Close modal function
+            window.closeModal = function() {
+                modal.style.opacity = '0';
+                modalContent.style.transform = 'scale(0.8)';
+                setTimeout(() => {
+                    document.body.removeChild(modal);
+                    delete window.closeModal;
+                }, 300);
+            };
+            
+            // Close on outside click
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    window.closeModal();
+                }
+            });
+        }
+
+        // Typing effect for profession
+        const professions = ['Programmer', 'Web Developer', 'UI/UX Designer', 'Problem Solver'];
+        let currentProfessionIndex = 0;
+        let currentCharIndex = 0;
+        let isDeleting = false;
+        const professionElement = document.getElementById('profession');
+        
+        function typeEffect() {
+            const currentProfession = professions[currentProfessionIndex];
+            
+            if (isDeleting) {
+                professionElement.textContent = currentProfession.substring(0, currentCharIndex - 1);
+                currentCharIndex--;
+            } else {
+                professionElement.textContent = currentProfession.substring(0, currentCharIndex + 1);
+                currentCharIndex++;
+            }
+            
+            let typeSpeed = 150;
+            
+            if (isDeleting) {
+                typeSpeed /= 2;
+            }
+            
+            if (!isDeleting && currentCharIndex === currentProfession.length) {
+                typeSpeed = 2000; // Pause at end
+                isDeleting = true;
+            } else if (isDeleting && currentCharIndex === 0) {
+                isDeleting = false;
+                currentProfessionIndex = (currentProfessionIndex + 1) % professions.length;
+                typeSpeed = 500; // Pause before next word
+            }
+            
+            setTimeout(typeEffect, typeSpeed);
+        }
+        
+        // Start typing effect after page loads
+        window.addEventListener('load', function() {
+            setTimeout(typeEffect, 2000);
+        });
+
+        // Profile image click effect
+        document.getElementById('profileImg').addEventListener('click', function() {
+            this.style.transform = this.style.transform === 'scale(1.1) rotate(5deg)' ? 'scale(1)' : 'scale(1.1) rotate(5deg)';
+        });
+
+        // Add floating particles effect
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.style.cssText = `
+                position: fixed;
+                width: 4px;
+                height: 4px;
+                background: #ffa726;
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: -1;
+                opacity: 0.7;
+            `;
+            
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.top = window.innerHeight + 'px';
+            
+            document.body.appendChild(particle);
+            
+            const duration = Math.random() * 3000 + 2000;
+            const drift = (Math.random() - 0.5) * 200;
+            
+            particle.animate([
+                { transform: 'translateY(0px) translateX(0px)', opacity: 0.7 },
+                { transform: `translateY(-${window.innerHeight + 100}px) translateX(${drift}px)`, opacity: 0 }
+            ], {
+                duration: duration,
+                easing: 'linear'
+            }).onfinish = () => {
+                document.body.removeChild(particle);
+            };
+        }
+        
+        // Create particles periodically
+        setInterval(createParticle, 300);
+    </script>
+</body>
+</html>
